@@ -1,6 +1,6 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {Course} from "../model/course";
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from "@angular/router";
+import { Course } from "../model/course";
 import {
     debounceTime,
     distinctUntilChanged,
@@ -13,9 +13,9 @@ import {
     withLatestFrom,
     concatAll, shareReplay
 } from 'rxjs/operators';
-import {merge, fromEvent, Observable, concat} from 'rxjs';
-import {Lesson} from '../model/lesson';
-import {createHttpObservable} from '../common/util';
+import { merge, fromEvent, Observable, concat } from 'rxjs';
+import { Lesson } from '../model/lesson';
+import { createHttpObservable } from '../common/util';
 
 
 @Component({
@@ -25,9 +25,9 @@ import {createHttpObservable} from '../common/util';
 })
 export class CourseComponent implements OnInit, AfterViewInit {
 
-    courseId:string;
+    courseId: string;
 
-    course$ : Observable<Course>;
+    course$: Observable<Course>;
 
     lessons$: Observable<Lesson[]>;
 
@@ -49,7 +49,7 @@ export class CourseComponent implements OnInit, AfterViewInit {
 
     ngAfterViewInit() {
 
-        const searchLessons$ =  fromEvent<any>(this.input.nativeElement, 'keyup')
+        const searchLessons$ = fromEvent<any>(this.input.nativeElement, 'keyup')
             .pipe(
                 map(event => event.target.value),
                 debounceTime(400),
