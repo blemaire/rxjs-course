@@ -26,29 +26,21 @@ import { createHttpObservable } from '../common/util';
 export class CourseComponent implements OnInit, AfterViewInit {
 
     courseId: string;
-
     course$: Observable<Course>;
-
     lessons$: Observable<Lesson[]>;
-
 
     @ViewChild('searchInput') input: ElementRef;
 
     constructor(private route: ActivatedRoute) {
 
-
     }
 
     ngOnInit() {
-
         this.courseId = this.route.snapshot.params['id'];
-
         this.course$ = createHttpObservable(`/api/courses/${this.courseId}`);
-
     }
 
     ngAfterViewInit() {
-
         const searchLessons$ = fromEvent<any>(this.input.nativeElement, 'keyup')
             .pipe(
                 map(event => event.target.value),
@@ -58,9 +50,7 @@ export class CourseComponent implements OnInit, AfterViewInit {
             );
 
         const initialLessons$ = this.loadLessons();
-
         this.lessons$ = concat(initialLessons$, searchLessons$);
-
     }
 
     loadLessons(search = ''): Observable<Lesson[]> {
