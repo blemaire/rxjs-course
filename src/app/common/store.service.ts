@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, timer } from 'rxjs';
 import { Course } from '../model/course';
 import { createHttpObservable } from './util';
-import { tap, map, shareReplay, retryWhen, delayWhen } from 'rxjs/operators';
+import { tap, map, shareReplay, retryWhen, delayWhen, filter } from 'rxjs/operators';
 import { fromPromise } from 'rxjs/internal-compatibility';
 
 @Injectable({
@@ -21,7 +21,7 @@ export class Store {
                 tap(() => console.log("HTTP request executed")),
                 map(res => Object.values(res["payload"])),
             )
-            .subscribe(course => this.subject.next(course))
+            .subscribe((course: Course[]) => this.subject.next(course))
             ;
     }
 
@@ -57,7 +57,8 @@ export class Store {
         return this.courses$
             .pipe(
                 map(courses =>
-                    courses.find(course => course.id == courseId))
+                    courses.find(course => course.id == courseId)),
+                filter(course => !!course),
             );
     }
 
